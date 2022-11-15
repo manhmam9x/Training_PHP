@@ -18,6 +18,17 @@
             <div class="col-md-6">
                 <!-- general form elements -->
                 <div class="box box-primary">
+                    @if ($errors->any())
+                        <div class="alert alert-warning alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                            <h4><i class="icon fa fa-warning"></i> Thông Báo !</h4>
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="box-header with-border">
                         <h3 class="box-title">Thêm Thông Tin Người Dùng</h3>
                     </div>
@@ -50,7 +61,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="exampleInputPassword1">Xác Nhận Mật Khẩu</label>
-                                    <input   type="password" class="form-control" id="confirmpass" name="confirmpass" placeholder="Xác Nhận Mật Khẩu">
+                                    <input   type="password" class="form-control" id="password2" name="password2" placeholder="Xác Nhận Mật Khẩu">
                                     @if($errors->has('password'))
                                         <label class="text-red" style="font-weight: 600; font-size: 15px">&ensp;<i class="fa fa-info"></i>{{ $errors->first('password') }}</label>
                                     @endif

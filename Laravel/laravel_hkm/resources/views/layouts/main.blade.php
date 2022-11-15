@@ -104,7 +104,6 @@
 
 <!-- Vị trí dùng để chèn code Javascript -->
 
-
 <script>
     $(function () {
         //Initialize Select2 Elements

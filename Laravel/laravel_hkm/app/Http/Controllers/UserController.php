@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class UserController extends Controller
 {
@@ -47,6 +48,7 @@ class UserController extends Controller
             'address' => 'required|max:255',
         ],[
             'mail_address.required' => 'Bạn cần nhập email',
+            'mail_address.unique' => 'Email này đã tồn tại tài khoản',
             'name.required' => 'Bạn cần nhập tên',
             'password.required' => 'Bạn cần nhập mật khẩu',
             'address.required' => 'Bạn cần nhập địa chỉ',
@@ -54,12 +56,21 @@ class UserController extends Controller
             'phone.max' => 'Số điện thoại chỉ tối đa 15 số',
         ]);
 
+        $pwd1 = $request->input('password');
+        $pwd2 = $request->input('password2');
+
+        if ($pwd1 == $pwd2) {
+            $password = $pwd1;
+        } else {
+            return Redirect::back()->withErrors(['msg' => 'Mật khẩu không trùng khớp']);
+        }
+
         $user = new User();
         $user->mail_address = $request->input('mail_address');
         $user->name = $request->input('name');
         $user->phone = $request->input('phone');
         $user->address = $request->input('address');
-        $user->password = $request->input('password');
+        $user->password = bcrypt($password);
         $user->save();
 
         return redirect()->route('user.index');
